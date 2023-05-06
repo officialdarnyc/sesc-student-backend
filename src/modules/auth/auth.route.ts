@@ -9,6 +9,5 @@ router.post('/signup', authController.signup);
 router.post('/login', authController.login);
 router.get('/profile/:studentId', authController.profile);
 router.patch('/profile/:studentId', authController.profileEdit);
-router.get('/eligibility/:studentId', authController.status);
 
 export default router;

@@ -95,7 +95,7 @@ export const processLogin = async (email: string, password: string): Promise<Pro
       id: student.id,
       firstName: student.firstName,
       lastName: student.lastName,
-      externalStudenId: student.externalStudentId,
+      externalStudentId: student.externalStudentId,
       email: student.email,
       createdAt: student.createdAt
     }

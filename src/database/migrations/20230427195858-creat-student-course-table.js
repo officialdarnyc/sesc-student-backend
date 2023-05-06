@@ -17,12 +17,23 @@ module.exports = {
           },
           type: Sequelize.INTEGER().UNSIGNED
         },
+        studentId: {
+          allowNull: true,
+          primaryKey: true,
+          onDelete: 'CASCADE',
+          references: {
+            model: {
+              tableName: 'students'
+            },
+            key: 'id'
+          },
+          type: Sequelize.INTEGER().UNSIGNED
+        },
         externalStudentId: {
           allowNull: false,
           type: Sequelize.STRING(200)
         },
-       
-      
+
         status: {
           allowNull: false,
           type: Sequelize.STRING(20)
@@ -34,13 +45,13 @@ module.exports = {
         createdAt: {
           allowNull: false,
           type: Sequelize.DATE()
-        },
+        }
       },
-     
+
       {
         uniqueKeys: {
           organization_user_unique: {
-            fields: ['externalStudentId', 'courseId']
+            fields: ['studentId', 'courseId']
           }
         }
       }
@@ -48,7 +59,6 @@ module.exports = {
   },
 
   async down(queryInterface, _Sequelize) {
-    await queryInterface.dropTable('userOrganizations');
+    await queryInterface.dropTable('studentsCourses');
   }
 };
-
