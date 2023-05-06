@@ -19,14 +19,14 @@ Scripts to create the database schema can be found in the database/migrations fo
 
 ### 2. Finance
 The application integrates with the [Student microservice](https://github.com/officialdarnyc/sesc-finance-backend) via REST.
-1. When a student is created, a request is sent to this application to create an account.
-2. When a student enrols in a course, a request is sent to this application to create an invoice.
-3. When checking the eligibility to graduate, a request is sent to this application to see if there are any outstanding invoices.
+1. When a student is created, this application sends a request to the Finance app to create an account.
+2. When a student enrols in a course, this application sends a request to Finance to create an invoice.
+3. The created invoice must be paid via the Finance Payment Portal.
+4. When checking the student's eligibility to graduate, this application sends a request to Finance to see if there are any outstanding invoices.
 
 ### 3. Library
 The application integrates with the [Library microservice](https://github.com/AidanCurley/CESBooks) via REST.
-1. When a book is returned late, a fine is issued. A request is sent to this application to create an invoice.
-2. The invoice must be paid via this application's Payment Portal.
+1. When a student is created, this application sends a request to the Library app to create an account.
 
 
 ## Run using Docker Compose
