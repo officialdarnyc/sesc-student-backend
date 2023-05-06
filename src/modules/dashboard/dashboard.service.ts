@@ -12,6 +12,19 @@ const coursesRepo = new CoursesRepo();
 const studentCourses = new StudentsCoursesRepo();
 const studentsRepo = new StudentsRepo();
 
+const dateFormat = () => {
+  const currentDate = new Date();
+
+  const dueDate = new Date(currentDate.getTime() + 14 * 24 * 60 * 60 * 1000);
+
+  const year = dueDate.getUTCFullYear();
+  const month = ('0' + (dueDate.getUTCMonth() + 1)).slice(-2);
+  const day = ('0' + dueDate.getUTCDate()).slice(-2);
+
+  const formattedDate = `${year}-${month}-${day}`;
+  return formattedDate;
+};
+
 export const processGetCourses = async (options?: { limit: number; offset: number }): Promise<any> => {
   // @ts-ignore
 
@@ -23,14 +36,14 @@ export const processGetCourses = async (options?: { limit: number; offset: numbe
   return courses;
 };
 
-export const processRegisterCourses = async (data: { studentId: number; courseId: number }): Promise<any> => {
-    // @ts-ignore
+export const processRegisterCourses = async (data: { studentId: string; courseId: number }): Promise<any> => {
+  // @ts-ignore
   const student = await studentsRepo.findOne({
     where: {
-      id: data.studentId
+      externalStudentId: data.studentId
     }
   });
-    // @ts-ignore
+  // @ts-ignore
   const course = await coursesRepo.findOne({
     where: {
       id: data.courseId
@@ -40,43 +53,42 @@ export const processRegisterCourses = async (data: { studentId: number; courseId
 
   const studentCourse = await studentCourses.findOne({
     where: {
-      studentId: data.studentId,
+      externalStudentId: data.studentId,
       courseId: data.courseId
     }
   });
   if (studentCourse) {
     throw new ConflictError('This course has been registered');
   }
-
+  // @ts-ignore
   if (!student) {
     throw new UnAuthorizedError('Student not found');
   }
+  // @ts-ignore
   if (!course) {
     throw new UnAuthorizedError('This course does not exists');
   }
-  const currentDate = new Date();
 
+  const date = dateFormat();
   const invoice = await callCreateInvoice({
-    // @ts-ignore
+   
 
     amount: course.fee,
-    dueDate: new Date(currentDate.getTime() + 14 * 24 * 60 * 60 * 1000),
+    dueDate: date,
     type: 'TUITION_FEES',
     account: {
       studentId: student.externalStudentId
     }
   });
   if (student) {
-    // @ts-ignore
     await studentCourses.create({
-      studentId: data.studentId,
+      studentId: student.id,
+      externalStudentId: data.studentId,
       courseId: data.courseId,
-      externalStudentId: student.externalStudentId,
       reference: invoice.reference,
       createdAt: new Date()
     });
   }
-
 
   return {
     message: 'courses registered successfully',
@@ -89,40 +101,41 @@ export const processRegisterCourses = async (data: { studentId: number; courseId
 export const processGeRegisteredtCourses = async (studentId: string): Promise<any> => {
   // @ts-ignore
 
-  const courses = await studentsRepo.findOne({
-    where: { externalStudentId: studentId },
-    include: {
-      model: Courses,
-      as: 'courses',
-      through: {
-        attributes: ['reference','createdAt','externalStudentId',"status"],
-      }
-    }
+  const students = await studentsRepo.findOne({
+    where: { externalStudentId: studentId }
   });
-  if (courses) {
-  
-   
-      return courses
-  
 
+  if (students) {
+    const courses = await studentsRepo.findOne({
+
+     
+      where: { id: students.id },
+      include: {
+        model: Courses,
+        as: 'courses',
+        through: {
+          attributes: ['reference', 'createdAt', 'externalStudentId', 'status']
+        }
+      }
+    });
+    return courses;
   }
+
   // @ts-ignore
 
-  if (!courses) {
-    throw new UnAuthorizedError("this student is not registered");
+  if (!students) {
+    throw new UnAuthorizedError('this student is not registered');
   }
-  
-
 };
-export const processStatus = async (studentId:string): Promise<any> => {
+export const processStatus = async (studentId: string): Promise<any> => {
   // @ts-ignore
-  const status = await callgetStatus(studentId)
+  const status = await callgetStatus(studentId);
 
   return {
     canLogin: true,
     message: 'status retrieved ',
     data: {
-      hasOutstandingBalance:status.hasOutstandingBalance
+      hasOutstandingBalance: status.hasOutstandingBalance
     }
   };
 };

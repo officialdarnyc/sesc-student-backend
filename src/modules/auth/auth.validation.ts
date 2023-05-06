@@ -39,8 +39,8 @@ export const validateProfileEdit = (
   lastName: string;
 } => {
   const schema = object.keys({
-    firstName: string.trim().required(),
-    lastName: string.trim().required()
+    firstName: string.trim().optional(),
+    lastName: string.trim().optional()
   });
 
   return validate(payload, schema);

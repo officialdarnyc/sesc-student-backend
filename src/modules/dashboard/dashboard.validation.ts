@@ -6,9 +6,9 @@ const { object, string, number, array } = joi.types();
 
 
 
-export const validateRegisterCourse = (payload: unknown): { studentId: number,courseId:number } => {
+export const validateRegisterCourse = (payload: unknown): { studentId: string,courseId:number } => {
   const schema = object.keys({
-    studentId: number.min(1).required(),
+    studentId: string.max(10).required(),
     courseId: number.min(1).required(),
  
   });

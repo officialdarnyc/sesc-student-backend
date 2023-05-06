@@ -18,7 +18,7 @@ module.exports = {
           type: Sequelize.INTEGER().UNSIGNED
         },
         studentId: {
-          allowNull: false,
+          allowNull: true,
           primaryKey: true,
           onDelete: 'CASCADE',
           references: {
@@ -33,8 +33,7 @@ module.exports = {
           allowNull: false,
           type: Sequelize.STRING(200)
         },
-       
-      
+
         status: {
           allowNull: false,
           type: Sequelize.STRING(20)
@@ -46,9 +45,9 @@ module.exports = {
         createdAt: {
           allowNull: false,
           type: Sequelize.DATE()
-        },
+        }
       },
-     
+
       {
         uniqueKeys: {
           organization_user_unique: {
@@ -63,4 +62,3 @@ module.exports = {
     await queryInterface.dropTable('studentsCourses');
   }
 };
-

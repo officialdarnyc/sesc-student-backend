@@ -6,9 +6,11 @@ import { Model, DataTypes, CreationOptional, InferAttributes, InferCreationAttri
 // @ts-ignore
 
 class StudentsCourses extends Model<InferAttributes<StudentsCourses>, InferCreationAttributes<StudentsCourses>> {
-  declare studentId: number;
+
 
   declare courseId: number;
+
+  declare studentId: number;
 
   declare status: CreationOptional<'paid' | 'outstanding'>;
 
@@ -21,17 +23,9 @@ class StudentsCourses extends Model<InferAttributes<StudentsCourses>, InferCreat
 
 StudentsCourses.init(
   {
-    // @ts-ignore
 
-    studentId: {
-      primaryKey: true,
-      type: DataTypes.INTEGER().UNSIGNED,
-      references: {
-        model: Students,
-        key: 'id'
-      },
-      allowNull: false
-    },
+    // @ts-ignore
+   
     courseId: {
       primaryKey: true,
       type: DataTypes.INTEGER().UNSIGNED,
@@ -40,6 +34,15 @@ StudentsCourses.init(
         key: 'id'
       },
       allowNull: false
+    },
+    studentId: {
+      primaryKey: true,
+      type: DataTypes.INTEGER().UNSIGNED,
+      references: {
+        model: Students,
+        key: 'id'
+      },
+      allowNull: true
     },
     externalStudentId: {
       type: DataTypes.STRING(250),

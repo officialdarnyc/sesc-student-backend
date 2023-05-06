@@ -58,17 +58,3 @@ export const profileEdit: RequestHandler = async (req, res, next) => {
     next(error);
   }
 };
-
-
-export const status: RequestHandler = async (req, res, next) => {
-  try {
-
-    const studentId =  req.params.studentId
-   
-    const result = await authService.processStatus(studentId);
-
-    res.json(responseHandler(result.message, result.data));
-  } catch (error) {
-    next(error);
-  }
-};
