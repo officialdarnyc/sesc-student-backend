@@ -18,7 +18,6 @@ export const getRegisteredCourses: RequestHandler = async (req, res, next) => {
 
   try {
     const studentId =  req.params.studentId
-    console.log(studentId,"yeuw")
     const courses = await dashboardService.processGeRegisteredtCourses(studentId);
     res.json(responseHandler('Student registered courses retrieved successfully', courses));
   } catch (error) {
@@ -30,7 +29,6 @@ export const registerCourses: RequestHandler = async (req, res, next) => {
 
 
   try {
-    console.log(req.body,"passs")
     const validatedData = validateRegisterCourse(req.body);
    
     const courses = await dashboardService.processRegisterCourses(validatedData);

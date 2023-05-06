@@ -6,7 +6,6 @@ import { Model, DataTypes, CreationOptional, InferAttributes, InferCreationAttri
 // @ts-ignore
 
 class StudentsCourses extends Model<InferAttributes<StudentsCourses>, InferCreationAttributes<StudentsCourses>> {
-  declare studentId: number;
 
   declare courseId: number;
 
@@ -23,15 +22,6 @@ StudentsCourses.init(
   {
     // @ts-ignore
 
-    studentId: {
-      primaryKey: true,
-      type: DataTypes.INTEGER().UNSIGNED,
-      references: {
-        model: Students,
-        key: 'id'
-      },
-      allowNull: false
-    },
     courseId: {
       primaryKey: true,
       type: DataTypes.INTEGER().UNSIGNED,
@@ -68,14 +58,14 @@ StudentsCourses.init(
 Students.belongsToMany(Courses, {
   as: 'courses',
   through: StudentsCourses,
-  foreignKey: 'studentId',
+  foreignKey: 'externalStudentId',
   otherKey: 'courseId'
 });
 Courses.belongsToMany(Students, {
   as: 'students',
   through: StudentsCourses,
   foreignKey: 'courseId',
-  otherKey: 'studentId'
+  otherKey: 'externalStudentId'
 });
 
 export { StudentsCourses };

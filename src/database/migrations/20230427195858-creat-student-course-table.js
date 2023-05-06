@@ -17,18 +17,6 @@ module.exports = {
           },
           type: Sequelize.INTEGER().UNSIGNED
         },
-        studentId: {
-          allowNull: false,
-          primaryKey: true,
-          onDelete: 'CASCADE',
-          references: {
-            model: {
-              tableName: 'students'
-            },
-            key: 'id'
-          },
-          type: Sequelize.INTEGER().UNSIGNED
-        },
         externalStudentId: {
           allowNull: false,
           type: Sequelize.STRING(200)
@@ -52,7 +40,7 @@ module.exports = {
       {
         uniqueKeys: {
           organization_user_unique: {
-            fields: ['studentId', 'courseId']
+            fields: ['externalStudentId', 'courseId']
           }
         }
       }

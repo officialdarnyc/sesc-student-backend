@@ -7,6 +7,7 @@ import { StudentsCoursesRepo } from '../../database/repositories/StudentsCourses
 import { StudentsCourses } from '../../database/models/StudentsCourses';
 import { Courses } from '../../database/models/Courses';
 import { callCreateInvoice, callgetStatus } from '../../integrations/Finance/Base';
+import { dateFormat } from '../../utils/date';
 
 const coursesRepo = new CoursesRepo();
 const studentCourses = new StudentsCoursesRepo();
@@ -23,14 +24,14 @@ export const processGetCourses = async (options?: { limit: number; offset: numbe
   return courses;
 };
 
-export const processRegisterCourses = async (data: { studentId: number; courseId: number }): Promise<any> => {
+export const processRegisterCourses = async (data: { studentId: string; courseId: number }): Promise<any> => {
     // @ts-ignore
   const student = await studentsRepo.findOne({
     where: {
-      id: data.studentId
+      externalStudentId: data.studentId
     }
   });
-    // @ts-ignore
+    
   const course = await coursesRepo.findOne({
     where: {
       id: data.courseId
@@ -40,7 +41,7 @@ export const processRegisterCourses = async (data: { studentId: number; courseId
 
   const studentCourse = await studentCourses.findOne({
     where: {
-      studentId: data.studentId,
+      externalStudentId: data.studentId,
       courseId: data.courseId
     }
   });
@@ -54,24 +55,25 @@ export const processRegisterCourses = async (data: { studentId: number; courseId
   if (!course) {
     throw new UnAuthorizedError('This course does not exists');
   }
-  const currentDate = new Date();
+  const date = dateFormat();
 
   const invoice = await callCreateInvoice({
     // @ts-ignore
 
     amount: course.fee,
-    dueDate: new Date(currentDate.getTime() + 14 * 24 * 60 * 60 * 1000),
+    dueDate: date,
     type: 'TUITION_FEES',
     account: {
-      studentId: student.externalStudentId
-    }
+      studentId: data.studentId
+    } 
   });
+  
+  
   if (student) {
     // @ts-ignore
     await studentCourses.create({
-      studentId: data.studentId,
+      externalStudentId: data.studentId,
       courseId: data.courseId,
-      externalStudentId: student.externalStudentId,
       reference: invoice.reference,
       createdAt: new Date()
     });
