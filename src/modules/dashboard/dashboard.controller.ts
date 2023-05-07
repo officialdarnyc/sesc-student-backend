@@ -4,7 +4,6 @@ import * as dashboardService from './dashboard.service';
 import { validateRegisterCourse } from './dashboard.validation';
 
 
-
 export const getCourses: RequestHandler = async (req, res, next) => {
 
   try {
@@ -14,6 +13,7 @@ export const getCourses: RequestHandler = async (req, res, next) => {
     next(error);
   }
 };
+
 export const getRegisteredCourses: RequestHandler = async (req, res, next) => {
 
   try {

@@ -109,8 +109,15 @@ export const processProfile = async (studentId: string): Promise<any> => {
 
   });
 
-  return student;
+  return {
+    firstName:student?.firstName,
+    lastName:student?.lastName,
+    email:student?.email,
+    studentId:student?.externalStudentId,
+    pasword:"****"
+  };
 };
+
 export const processProfileEdit = async (studentId: string, payloads: {
   firstName: string,
   lastName: string
