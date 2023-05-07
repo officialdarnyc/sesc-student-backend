@@ -43,6 +43,7 @@ export const processRegisterCourses = async (data: { studentId: string; courseId
       externalStudentId: data.studentId
     }
   });
+
   // @ts-ignore
   const course = await coursesRepo.findOne({
     where: {
@@ -105,10 +106,9 @@ export const processGeRegisteredtCourses = async (studentId: string): Promise<an
     where: { externalStudentId: studentId }
   });
 
+  
   if (students) {
     const courses = await studentsRepo.findOne({
-
-     
       where: { id: students.id },
       include: {
         model: Courses,
