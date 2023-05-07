@@ -1,7 +1,7 @@
 # Student Application
 This is a simple microservices-based application which exposes a RESTful API. It is written in TypeScript using the Node/Express framework. It is intended for use as part of the SESC module at Leeds Beckett University.
 
-![component diagram](public/images/Student.png "Component Diagram")
+![component diagram](public/images/uml.png "Component Diagram")
 
 ## Features
 1. Register/Log in - create a portal user and log in.
