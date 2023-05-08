@@ -14,8 +14,7 @@ This is a simple microservices-based application which exposes a RESTful API. It
 
 ## Integrations
 ### 1. Database
-The application integrates with a PostgreSQL relational database.</br>
-Scripts to create the database schema can be found in the database/migrations folder and are run automatically by docker-compose.
+The application integrates with a PostgreSQL relational database.
 
 ### 2. Finance
 The application integrates with the [Student microservice](https://github.com/officialdarnyc/sesc-finance-backend) via REST.
@@ -32,7 +31,10 @@ The application integrates with the [Library microservice](https://github.com/Ai
 ## Run using Docker Compose
 1. Rename the `.env.example` file inside the `Student` directory to `.env`:<br/>
 2. From the `Student` directory, run the app and db services:<br/>
-   `docker-compose up`
+   `docker-compose up -d`
+3. Connect to the student-backend container, run the following:
+- `npm run migrate`
+- `npm run seed:all`
 
 ## Test using Postman
 Download Postman from https://www.postman.com/ and import the collections found in the `Student/postman` directory.

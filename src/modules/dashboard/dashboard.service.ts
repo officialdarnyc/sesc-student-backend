@@ -106,7 +106,6 @@ export const processGeRegisteredtCourses = async (studentId: string): Promise<an
     where: { externalStudentId: studentId }
   });
 
-  
   if (students) {
     const courses = await studentsRepo.findOne({
       where: { id: students.id },
