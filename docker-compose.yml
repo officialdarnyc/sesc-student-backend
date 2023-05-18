@@ -13,7 +13,7 @@ services:
       - POSTGRES_PASSWORD=${POSTGRES_DATABASE_PASSWORD}
 
   student-backend:
-    image: officialdarnyc/sesc-student-backend:v2
+    image: officialdarnyc/sesc-student-backend:v3
     environment:
       - POSTGRES_DATABASE_HOST=student-db
       - POSTGRES_DATABASE_USERNAME=postgres

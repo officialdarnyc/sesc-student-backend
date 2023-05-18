@@ -17,7 +17,7 @@ This is a simple microservices-based application which exposes a RESTful API. It
 The application integrates with a PostgreSQL relational database.
 
 ### 2. Finance
-The application integrates with the [Student microservice](https://github.com/officialdarnyc/sesc-finance-backend) via REST.
+The application integrates with the [Finance microservice](https://github.com/officialdarnyc/sesc-finance-backend) via REST.
 1. When a student is created, this application sends a request to the Finance app to create an account.
 2. When a student enrols in a course, this application sends a request to Finance to create an invoice.
 3. The created invoice must be paid via the Finance Payment Portal.
@@ -36,8 +36,9 @@ The application integrates with the [Library microservice](https://github.com/Ai
 - `npm run migrate`
 - `npm run seed:all`
 
-## Test using Postman
-Download Postman from https://www.postman.com/ and import the collections found in the `Student/postman` directory.
+1. Download Postman from https://www.postman.com/
+2. Access the API documentation [here](https://documenter.getpostman.com/view/25563280/2s93kz7RcC)
+3. From the web page, click on `Run in Postman` located at the top right-hand corner.
 
 ## Contributing
 Pull requests are welcome. For major changes, please open an issue first to discuss what you would like to change.
