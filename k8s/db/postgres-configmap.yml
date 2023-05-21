@@ -1,0 +1,8 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: postgres-config
+  namespace: sesc
+data:
+  POSTGRES_DB: student-db
+  POSTGRES_USER: postgres

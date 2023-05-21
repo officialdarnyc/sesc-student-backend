@@ -14,6 +14,11 @@ services:
 
   student-backend:
     image: officialdarnyc/sesc-student-backend:v3
+    deploy:
+      resources:
+        limits:
+          cpus: "0.5" # Limit the container to use 50% of a single CPU core
+          memory: "50M" # Limit the container to use 50 megabytes of memory
     environment:
       - POSTGRES_DATABASE_HOST=student-db
       - POSTGRES_DATABASE_USERNAME=postgres

@@ -1,0 +1,57 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: student-backend-deploy
+  namespace: sesc
+spec:
+  selector:
+    matchLabels:
+      app: student-backend
+  template:
+    metadata:
+      labels:
+        app: student-backend
+    spec:
+      containers:
+        - name: student-backend
+          image: officialdarnyc/sesc-student-backend:v3
+          imagePullPolicy: IfNotPresent
+          env:
+            - name: POSTGRES_DATABASE_HOST
+              value: postgresdb
+            - name: POSTGRES_DATABASE_PORT
+              value: '5432'
+            - name: POSTGRES_DATABASE_NAME
+              valueFrom:
+                configMapKeyRef:
+                  name: postgres-config
+                  key: POSTGRES_DB
+            - name: POSTGRES_DATABASE_USERNAME
+              valueFrom:
+                configMapKeyRef:
+                  name: postgres-config
+                  key: POSTGRES_USER
+            - name: POSTGRES_DATABASE_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: postgres-secret
+                  key: POSTGRES_PASSWORD
+          resources:
+            limits:
+              memory: '60Mi'
+              cpu: '500m'
+          ports:
+            - containerPort: 8080
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: student-backend-svc
+  namespace: sesc
+spec:
+  selector:
+    app: student-backend
+  ports:
+    - port: 8080
+      targetPort: 8080
