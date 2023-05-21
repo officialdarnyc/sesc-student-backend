@@ -14,6 +14,7 @@ services:
 
   student-backend:
     image: officialdarnyc/sesc-student-backend:v3
+    restart: on-failure
     deploy:
       resources:
         limits:
